@@ -54,12 +54,11 @@ void pwm_isr1(int pwm_id, void *data) {
 #endif
 
 int main(void) {
-    time_t timeout;
-
     printf("%s %s \n", __DATE__, __TIME__);
     printf("PWM demo test..\n");
 
 #ifdef pwm
+    time_t timeout;
 
     /* Enable PWM1 instance */
     metal_pwm_enable(pwm);
