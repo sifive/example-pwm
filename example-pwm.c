@@ -31,7 +31,7 @@
 
 #ifdef ENABLE_INTERRUPTS
 
-void metal_sifive_pwm0_source0_handler(void)
+void metal_sifive_pwm0_source_0_handler(void)
 {
     static unsigned int i = 0;
 
@@ -42,15 +42,6 @@ void metal_sifive_pwm0_source0_handler(void)
     metal_pwm_clear_interrupt(pwm, 0);
 }
 
-void pwm_isr1(int pwm_id, void *data) {
-    static unsigned int i = 0;
-
-    /* Print interrupt ID and ISR run count
-     * Note: Not recommended, but we have nothing else to do here.*/
-    printf("id:%u i:%u\n", 1, i++);
-
-    metal_pwm_clear_interrupt(pwm, 1);
-}
 #endif
 
 int main(void) {
@@ -73,7 +64,8 @@ int main(void) {
     metal_pwm_trigger(pwm, 0, METAL_PWM_CONTINUOUS);
 
 #ifdef ENABLE_INTERRUPTS
-    metal_pwm_cfg_interrupt(pwm, METAL_PWM_INTERRUPT_ENABLE);
+    metal_pwm_cfg_interrupt(pwm, METAL_PWM_INTERRUPT_ENABLE, 0);
+    metal_cpu_enable_interrupts();
 #else
     metal_pwm_set_duty(pwm, 2, 90, METAL_PWM_PHASE_CORRECT_DISABLE);
     metal_pwm_set_duty(pwm, 3, 20, METAL_PWM_PHASE_CORRECT_DISABLE);
